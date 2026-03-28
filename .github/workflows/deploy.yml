@@ -30,16 +30,10 @@ jobs:
       - name: Build
         run: |
           mkdir -p _site
-          for dir in */; do
-            name=$(basename "$dir")
-            mkdir -p "_site/$name"
-            for subdir in "$dir"*/; do
-              if [ -d "$subdir" ]; then
-                cp -r "$subdir" "_site/$name/"
-              fi
-            done
-            if [ -z "$(ls -A "_site/$name" 2>/dev/null)" ]; then
-              cp -r "$dir"*.html "$dir"*.css "$dir"*.js "_site/$name/" 2>/dev/null || true
+          cp -r ./_site/* . 2>/dev/null || true
+          for dir in Aman Harshit Rishab Vineet; do
+            if [ -d "$dir" ]; then
+              cp -r "$dir" _site/
             fi
           done
 
