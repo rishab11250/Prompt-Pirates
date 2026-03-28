@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are the Universe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="universe-canvas"></canvas>
+    <div class="ripple-container" id="ripple-container"></div>
+    <div class="warp-overlay" id="warp-overlay"></div>
+
+    <nav class="nav-dots">
+        <div class="nav-dot active" data-section="0" data-label="Origins"></div>
+        <div class="nav-dot" data-section="1" data-label="Composition"></div>
+        <div class="nav-dot" data-section="2" data-label="Scale"></div>
+        <div class="nav-dot" data-section="3" data-label="Voice"></div>
+        <div class="nav-dot" data-section="4" data-label="Transcend"></div>
+    </nav>
+
+    <button class="audio-toggle muted" id="audio-toggle" title="Toggle Music">
+        <svg viewBox="0 0 24 24" id="audio-icon">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+    </button>
+
+    <div class="content-wrapper">
+        <section id="section-0" class="hero-section">
+            <div class="glass-panel">
+                <h1 class="hero-title">You Are the Universe</h1>
+                <p class="hero-subtitle" id="subtitle">Made of stardust</p>
+            </div>
+            <div class="scroll-indicator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M19 12l-7 7-7-7"/>
+                </svg>
+            </div>
+        </section>
+
+        <section id="section-1" class="awareness-section">
+            <div class="glass-panel fade-in">
+                <h2>The Cosmic Connection</h2>
+                <div class="awareness-text" id="awareness-text">
+                    <span>Every</span> <span>atom</span> <span>in</span> <span>your</span> <span>body</span> 
+                    <span>was</span> <span>born</span> <span>in</span> <span>the</span> <span>heart</span> 
+                    <span>of</span> <span>a</span> <span>supernova.</span> <span>The</span> <span>iron</span> 
+                    <span>in</span> <span>your</span> <span>blood,</span> <span>the</span> <span>calcium</span> 
+                    <span>in</span> <span>your</span> <span>bones,</span> <span>the</span> <span>oxygen</span> 
+                    <span>you</span> <span>breathe</span> — <span>all</span> <span>forged</span> 
+                    <span>in</span> <span>cosmic</span> <span>fires</span> <span>millions</span> 
+                    <span>of</span> <span>light-years</span> <span>away.</span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="8" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </div>
+                        <div class="counter" id="atoms">0</div>
+                        <div class="stat-label">Atoms in You</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 3l1.5 4.5h4.5l-3.5 3 1.5 4.5-4-3-4 3 1.5-4.5-3.5-3h4.5z" />
+                            </svg>
+                        </div>
+                        <div class="counter" id="stars">0</div>
+                        <div class="stat-label">Visible Stars</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 6v6l4 2" />
+                            </svg>
+                        </div>
+                        <div class="counter" id="years">0</div>
+                        <div class="stat-label">Age of Universe</div>
+                    </div>
+                </div>
+
+                <div class="composition-breakdown">
+                    <div class="breakdown-item" data-value="68">
+                        <div class="breakdown-label">Dark Energy</div>
+                        <div class="breakdown-bar"><div class="breakdown-fill" style="width: 0"></div></div>
+                        <div class="breakdown-percent">68%</div>
+                    </div>
+                    <div class="breakdown-item" data-value="27">
+                        <div class="breakdown-label">Dark Matter</div>
+                        <div class="breakdown-bar"><div class="breakdown-fill" style="width: 0"></div></div>
+                        <div class="breakdown-percent">27%</div>
+                    </div>
+                    <div class="breakdown-item" data-value="5">
+                        <div class="breakdown-label">Normal Matter</div>
+                        <div class="breakdown-bar"><div class="breakdown-fill" style="width: 0"></div></div>
+                        <div class="breakdown-percent">5%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-2" class="scale-section">
+            <div class="glass-panel fade-in">
+                <h2>The Scale of Existence</h2>
+                <div class="scale-info-panel">
+                    <h3 id="scale-title">Perspective</h3>
+                    <p id="scale-desc">Everything in the universe has its place, from the infinitesimal to the infinite.</p>
+                </div>
+                <div class="scale-container">
+                    <div class="scale-item" data-scale="atom">
+                        <div class="scale-circle"></div>
+                        <span>Atom</span>
+                    </div>
+                    <div class="scale-item" data-scale="human">
+                        <div class="scale-circle"></div>
+                        <span>Human</span>
+                    </div>
+                    <div class="scale-item" data-scale="earth">
+                        <div class="scale-circle"></div>
+                        <span>Earth</span>
+                    </div>
+                    <div class="scale-item" data-scale="sun">
+                        <div class="scale-circle"></div>
+                        <span>Sun</span>
+                    </div>
+                    <div class="scale-item" data-scale="galaxy">
+                        <div class="scale-circle"></div>
+                        <span>Galaxy</span>
+                    </div>
+                </div>
+                <div class="log-scale-indicator">
+                    <div class="log-line"></div>
+                    <div class="log-ticks">
+                        <span>10<sup>-10</sup>m</span>
+                        <span>10<sup>0</sup>m</span>
+                        <span>10<sup>7</sup>m</span>
+                        <span>10<sup>9</sup>m</span>
+                        <span>10<sup>21</sup>m</span>
+                    </div>
+                </div>
+                <p class="instruction">Hover over a circle to shift your focus</p>
+            </div>
+        </section>
+
+        <section id="section-3" class="voice-section">
+            <div class="glass-panel fade-in">
+                <h2>Speak to the Cosmos</h2>
+                <p class="instruction">Your voice creates ripples through the universe</p>
+                <button class="voice-btn" id="voice-btn">
+                    <span id="voice-btn-text">Speak Your Truth</span>
+                </button>
+                <div class="sound-waves">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                <div class="voice-output">
+                    <div class="voice-input-display" id="voice-input"></div>
+                    <div class="voice-response" id="voice-response"></div>
+                </div>
+                <div class="breathing-circle">
+                    <span class="breathing-text" id="breathing-text">Breathe...</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-4" class="transformation-section">
+            <div class="glass-panel fade-in">
+                <h2>Transform Your Reality</h2>
+                <p class="instruction">Click to shift your perception of existence</p>
+                <button class="transform-btn" id="transform-btn">
+                    Transcend
+                </button>
+                <div class="transform-message" id="transform-message">
+                    You Are Infinite
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="entities.js"></script>
+    <script src="interactions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

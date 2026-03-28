@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Last Cartographer — An Interactive Story</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet" />
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- ══ Custom Cursor ══ -->
+    <div id="cur"></div>
+    <div id="cur-ring"></div>
+
+    <!-- ══ Background Canvases ══ -->
+    <canvas id="starfield"></canvas>
+    <canvas id="particles"></canvas>
+
+    <!-- ══ Scroll Progress Bar ══ -->
+    <div id="scrollbar"></div>
+
+    <!-- ══ Side Chapter Navigation ══ -->
+    <nav id="progress-nav" aria-label="Chapter navigation">
+        <div class="pnav-dot active" data-ch="ch1" tabindex="0" role="button" aria-label="Chapter 1: Prologue">
+            <span class="pnav-label">Prologue</span>
+        </div>
+        <div class="pnav-dot" data-ch="ch2" tabindex="0" role="button" aria-label="Chapter 2: The Journey">
+            <span class="pnav-label">The Journey</span>
+        </div>
+        <div class="pnav-dot" data-ch="ch3" tabindex="0" role="button" aria-label="Chapter 3: Discovery">
+            <span class="pnav-label">Discovery</span>
+        </div>
+        <div class="pnav-dot" data-ch="ch4" tabindex="0" role="button" aria-label="Chapter 4: The Danger">
+            <span class="pnav-label">The Danger</span>
+        </div>
+        <div class="pnav-dot" data-ch="ch5" tabindex="0" role="button" aria-label="Chapter 5: Resolution">
+            <span class="pnav-label">Resolution</span>
+        </div>
+    </nav>
+
+    <!-- ══ Ambient Music Toggle ══ -->
+    <button id="music-ctrl" aria-label="Toggle ambient music">
+        <svg id="music-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13" />
+            <circle cx="6" cy="18" r="3" />
+            <circle cx="18" cy="16" r="3" />
+        </svg>
+    </button>
+
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║  CHAPTER I — PROLOGUE                   ║
+       ╚══════════════════════════════════════════╝ -->
+    <section id="ch1">
+        <div class="ch-watermark">I</div>
+        <div class="ch-inner">
+
+            <p class="ch-label">Chapter I &mdash; Prologue</p>
+            <h1 class="ch-title">The Last<br>Cartographer</h1>
+            <div class="deco-line">
+                <div class="deco-diamond"></div>
+            </div>
+
+            <!-- Map illustration -->
+            <div class="ch-art" id="art1">
+                <svg viewBox="0 0 500 290" xmlns="http://www.w3.org/2000/svg"
+                    style="animation:mapPulse 3.5s ease-in-out infinite">
+                    <defs>
+                        <radialGradient id="pg1" cx="50%" cy="50%" r="60%">
+                            <stop offset="0%" stop-color="#2a2010" stop-opacity=".92" />
+                            <stop offset="100%" stop-color="#0a0810" stop-opacity=".97" />
+                        </radialGradient>
+                        <linearGradient id="mborder" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#c9a84c" stop-opacity=".5" />
+                            <stop offset="50%" stop-color="#f0d47a" stop-opacity=".85" />
+                            <stop offset="100%" stop-color="#c9a84c" stop-opacity=".5" />
+                        </linearGradient>
+                        <filter id="glow1">
+                            <feGaussianBlur stdDeviation="3" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <!-- Parchment base -->
+                    <rect x="18" y="12" width="464" height="266" rx="3" fill="url(#pg1)" stroke="url(#mborder)"
+                        stroke-width="1.5" />
+                    <!-- Torn edges -->
+                    <path
+                        d="M18,12 Q38,7 58,14 Q88,4 118,13 Q148,5 178,13 Q208,4 238,13 Q268,5 298,13 Q328,4 358,13 Q388,5 418,13 Q448,4 468,12"
+                        fill="none" stroke="rgba(201,168,76,.35)" stroke-width=".8" />
+                    <path
+                        d="M18,278 Q48,283 78,276 Q108,284 138,276 Q168,283 198,276 Q228,284 258,276 Q288,284 318,276 Q348,284 378,276 Q408,283 438,276 Q458,283 482,278"
+                        fill="none" stroke="rgba(201,168,76,.35)" stroke-width=".8" />
+                    <!-- Continent blobs -->
+                    <path
+                        d="M55,75 Q80,52 125,60 Q160,50 178,78 Q195,95 185,122 Q168,148 138,142 Q105,152 82,134 Q56,118 55,75Z"
+                        fill="rgba(95,125,75,.28)" stroke="#6a8a50" stroke-width=".8" />
+                    <path
+                        d="M195,65 Q240,48 285,70 Q318,58 348,82 Q368,100 360,132 Q348,158 310,164 Q272,170 245,154 Q215,142 200,116 Q184,92 195,65Z"
+                        fill="rgba(85,115,65,.22)" stroke="#5a7a40" stroke-width=".8" />
+                    <path
+                        d="M75,158 Q108,146 142,162 Q165,152 180,174 Q186,196 169,212 Q148,225 120,218 Q92,210 76,192 Q65,176 75,158Z"
+                        fill="rgba(80,110,60,.2)" stroke="#507040" stroke-width=".7" />
+                    <path
+                        d="M295,138 Q328,126 362,142 Q384,132 405,154 Q416,176 400,197 Q380,212 348,207 Q318,202 298,180 Q282,163 295,138Z"
+                        fill="rgba(82,112,62,.2)" stroke="#527242" stroke-width=".7" />
+                    <!-- Trade routes -->
+                    <path d="M178,112 Q200,128 202,148 Q206,168 238,174" fill="none" stroke="#4dd9f0" stroke-width=".9"
+                        stroke-dasharray="4,5" opacity=".55" />
+                    <path d="M238,174 Q262,180 282,168 Q304,148 298,132" fill="none" stroke="#4dd9f0" stroke-width=".9"
+                        stroke-dasharray="4,5" opacity=".55" />
+                    <path d="M120,90 Q155,100 175,112" fill="none" stroke="#4dd9f0" stroke-width=".7"
+                        stroke-dasharray="3,5" opacity=".35" />
+                    <!-- Compass Rose -->
+                    <g transform="translate(420,228)">
+                        <circle cx="0" cy="0" r="30" fill="none" stroke="#c9a84c" stroke-width=".8" opacity=".45" />
+                        <circle cx="0" cy="0" r="20" fill="none" stroke="#c9a84c" stroke-width=".5" opacity=".3" />
+                        <polygon points="0,-30 -5,-16 0,-21 5,-16" fill="#c9a84c" opacity=".9" />
+                        <polygon points="0,-30 -5,-16 0,-21 5,-16" transform="rotate(180)" fill="#7a6029"
+                            opacity=".75" />
+                        <polygon points="0,-30 -5,-16 0,-21 5,-16" transform="rotate(90)" fill="#7a6029" opacity=".6" />
+                        <polygon points="0,-30 -5,-16 0,-21 5,-16" transform="rotate(270)" fill="#7a6029"
+                            opacity=".6" />
+                        <text x="0" y="-34" text-anchor="middle" fill="#c9a84c" font-family="Space Mono" font-size="7"
+                            opacity=".8">N</text>
+                        <circle cx="0" cy="0" r="3" fill="#c9a84c" />
+                    </g>
+                    <!-- X marks the spot -->
+                    <g transform="translate(238,174)" filter="url(#glow1)">
+                        <circle cx="0" cy="0" r="12" fill="none" stroke="#f0d47a" stroke-width="1" opacity=".75" />
+                        <line x1="-7" y1="-7" x2="7" y2="7" stroke="#f0d47a" stroke-width="1.5" opacity=".9" />
+                        <line x1="7" y1="-7" x2="-7" y2="7" stroke="#f0d47a" stroke-width="1.5" opacity=".9" />
+                        <circle cx="0" cy="0" r="2.5" fill="#f0d47a" />
+                    </g>
+                    <!-- Scatter stars -->
+                    <circle cx="115" cy="55" r="1.5" fill="#dde4ff" opacity=".55" />
+                    <circle cx="198" cy="42" r="1" fill="#dde4ff" opacity=".5" />
+                    <circle cx="312" cy="50" r="1.5" fill="#dde4ff" opacity=".6" />
+                    <circle cx="375" cy="68" r="1" fill="#dde4ff" opacity=".4" />
+                    <circle cx="58" cy="198" r="1.5" fill="#dde4ff" opacity=".5" />
+                    <circle cx="440" cy="140" r="1" fill="#dde4ff" opacity=".45" />
+                    <!-- Scale bar -->
+                    <g transform="translate(30,258)">
+                        <line x1="0" y1="0" x2="85" y2="0" stroke="#c9a84c" stroke-width=".7" opacity=".5" />
+                        <line x1="0" y1="-3" x2="0" y2="3" stroke="#c9a84c" stroke-width=".7" opacity=".5" />
+                        <line x1="85" y1="-3" x2="85" y2="3" stroke="#c9a84c" stroke-width=".7" opacity=".5" />
+                        <text x="42" y="-6" text-anchor="middle" fill="#c9a84c" font-family="Space Mono" font-size="6.5"
+                            opacity=".55">100 leagues</text>
+                    </g>
+                    <!-- Map title -->
+                    <text x="250" y="36" text-anchor="middle" fill="#c9a84c" font-family="Cinzel Decorative"
+                        font-size="11" opacity=".65" letter-spacing="2">TERRA INCOGNITA</text>
+                    <ellipse cx="380" cy="175" rx="18" ry="10" fill="rgba(80,110,60,.25)" stroke="#507040"
+                        stroke-width=".6" />
+                    <ellipse cx="420" cy="100" rx="14" ry="8" fill="rgba(80,110,60,.2)" stroke="#507040"
+                        stroke-width=".6" />
+                </svg>
+            </div>
+
+            <p class="ch-text">
+                In the age when the world still held its breath — when mountains whispered
+                and oceans kept their secrets — there lived a woman who drew maps of places
+                that did not yet exist. Her name was Seren. And one evening,
+                a map arrived that <em>she had not drawn.</em>
+            </p>
+            <div class="deco-line">
+                <div class="deco-diamond"></div>
+            </div>
+
+        </div>
+        <!-- Scroll hint -->
+        <div id="scroll-hint">
+            <span>Scroll to begin</span>
+            <div id="scroll-arrow"></div>
+        </div>
+    </section>
+
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║  CHAPTER II — THE JOURNEY               ║
+       ╚══════════════════════════════════════════╝ -->
+    <section id="ch2">
+        <div class="ch-watermark">II</div>
+        <div class="ch-inner">
+
+            <p class="ch-label">Chapter II &mdash; The Journey</p>
+            <h2 class="ch-title" style="color:#4dd9f0;text-shadow:0 0 38px rgba(77,217,240,.35)">
+                Crossing the<br>Fractured Lands
+            </h2>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#4dd9f0"></div>
+            </div>
+
+            <!-- Floating islands illustration -->
+            <div class="ch-art" id="art2">
+                <svg viewBox="0 0 500 270" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="sky2" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#050d18" />
+                            <stop offset="100%" stop-color="#0a1830" />
+                        </linearGradient>
+                        <filter id="glow2">
+                            <feGaussianBlur stdDeviation="4" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <rect width="500" height="270" fill="url(#sky2)" />
+                    <!-- Background stars -->
+                    <circle cx="28" cy="22" r="1" fill="#dde4ff" opacity=".7" />
+                    <circle cx="75" cy="14" r="1.5" fill="#dde4ff" opacity=".6" />
+                    <circle cx="155" cy="28" r="1" fill="#dde4ff" opacity=".8" />
+                    <circle cx="228" cy="18" r="1.2" fill="#4dd9f0" opacity=".6" />
+                    <circle cx="300" cy="32" r="1" fill="#dde4ff" opacity=".7" />
+                    <circle cx="378" cy="16" r="1.5" fill="#dde4ff" opacity=".6" />
+                    <circle cx="440" cy="26" r="1" fill="#4dd9f0" opacity=".5" />
+                    <circle cx="108" cy="45" r="1" fill="#dde4ff" opacity=".5" />
+                    <circle cx="345" cy="48" r="1.2" fill="#dde4ff" opacity=".6" />
+                    <!-- Moon -->
+                    <circle cx="415" cy="58" r="28" fill="#1a2040" opacity=".35" />
+                    <circle cx="415" cy="58" r="24" fill="#c0cae0" opacity=".82" filter="url(#glow2)" />
+                    <circle cx="428" cy="48" r="20" fill="#1a2a5a" opacity=".92" />
+                    <circle cx="415" cy="58" r="32" fill="none" stroke="#7088b8" stroke-width=".8" opacity=".2" />
+                    <!-- Mist -->
+                    <ellipse cx="250" cy="188" rx="250" ry="22" fill="rgba(20,40,70,.5)" />
+                    <ellipse cx="160" cy="178" rx="120" ry="14" fill="rgba(25,50,80,.4)" />
+                    <ellipse cx="340" cy="165" rx="100" ry="12" fill="rgba(20,45,75,.35)" />
+                    <!-- Island 1 (large, left) -->
+                    <g style="animation:float 4.5s ease-in-out infinite">
+                        <ellipse cx="95" cy="148" rx="65" ry="20" fill="#141e2a" />
+                        <rect x="30" y="148" width="130" height="22" fill="#141e2a" />
+                        <path d="M30,148 Q62,160 95,157 Q128,160 160,148" fill="#1e2e3e" />
+                        <line x1="50" y1="168" x2="47" y2="192" stroke="#1a2428" stroke-width="1.8" opacity=".6" />
+                        <line x1="75" y1="170" x2="73" y2="196" stroke="#1a2428" stroke-width="1.8" opacity=".6" />
+                        <line x1="100" y1="170" x2="100" y2="198" stroke="#1a2428" stroke-width="1.8" opacity=".6" />
+                        <line x1="128" y1="168" x2="130" y2="193" stroke="#1a2428" stroke-width="1.8" opacity=".55" />
+                        <polygon points="88,108 74,148 102,148" fill="#1a3828" />
+                        <polygon points="72,118 60,148 84,148" fill="#163222" />
+                        <polygon points="108,114 96,148 120,148" fill="#183525" />
+                        <polygon points="56,128 46,148 66,148" fill="#142e20" />
+                        <ellipse cx="95" cy="168" rx="58" ry="12" fill="#0e1820" opacity=".85" />
+                    </g>
+                    <!-- Island 2 (mid) -->
+                    <g style="animation:float2 5.2s ease-in-out infinite .7s">
+                        <ellipse cx="280" cy="118" rx="52" ry="16" fill="#141e2a" />
+                        <rect x="228" y="118" width="104" height="18" fill="#141e2a" />
+                        <path d="M228,118 Q254,130 280,127 Q306,130 332,118" fill="#1c2c3c" />
+                        <line x1="244" y1="134" x2="241" y2="154" stroke="#1a2428" stroke-width="1.5" opacity=".55" />
+                        <line x1="270" y1="136" x2="268" y2="158" stroke="#1a2428" stroke-width="1.5" opacity=".55" />
+                        <line x1="300" y1="134" x2="302" y2="152" stroke="#1a2428" stroke-width="1.5" opacity=".5" />
+                        <polygon points="275,82 263,118 287,118" fill="#1a3828" />
+                        <polygon points="290,88 278,118 302,118" fill="#163222" />
+                        <polygon points="262,96 252,118 272,118" fill="#142e20" />
+                        <ellipse cx="280" cy="134" rx="46" ry="10" fill="#0e1820" opacity=".85" />
+                    </g>
+                    <!-- Island 3 (small, right) -->
+                    <g style="animation:float3 3.8s ease-in-out infinite 1.4s">
+                        <ellipse cx="430" cy="155" rx="34" ry="11" fill="#141e2a" />
+                        <rect x="396" y="155" width="68" height="14" fill="#141e2a" />
+                        <path d="M396,155 Q413,166 430,163 Q447,166 464,155" fill="#1c2c3c" />
+                        <line x1="412" y1="167" x2="410" y2="182" stroke="#1a2428" stroke-width="1.2" opacity=".5" />
+                        <line x1="436" y1="169" x2="438" y2="184" stroke="#1a2428" stroke-width="1.2" opacity=".5" />
+                        <polygon points="430,122 420,155 440,155" fill="#1a3828" />
+                        <polygon points="418,134 410,155 426,155" fill="#142e20" />
+                        <ellipse cx="430" cy="165" rx="30" ry="8" fill="#0e1820" opacity=".85" />
+                    </g>
+                    <!-- Explorer (Seren) on island 1 -->
+                    <g transform="translate(92,106)" filter="url(#glow2)" opacity=".9">
+                        <circle cx="0" cy="-16" r="3.5" fill="#c9a84c" />
+                        <line x1="0" y1="-12" x2="0" y2="0" stroke="#c9a84c" stroke-width="1.5" />
+                        <line x1="0" y1="-8" x2="-5" y2="-2" stroke="#c9a84c" stroke-width="1.2" />
+                        <line x1="0" y1="-8" x2="6" y2="-4" stroke="#c9a84c" stroke-width="1.2" />
+                        <line x1="0" y1="0" x2="-3" y2="9" stroke="#c9a84c" stroke-width="1.2" />
+                        <line x1="0" y1="0" x2="3" y2="9" stroke="#c9a84c" stroke-width="1.2" />
+                        <circle cx="7" cy="-6" r="5" fill="#f0d47a" opacity=".25" filter="url(#glow2)" />
+                        <circle cx="7" cy="-6" r="2.5" fill="#f0d47a" opacity=".8" />
+                    </g>
+                    <!-- Void / abyss below -->
+                    <rect x="0" y="225" width="500" height="45" fill="rgba(4,5,15,.92)" />
+                    <line x1="0" y1="228" x2="500" y2="228" stroke="#1a2a4a" stroke-width=".5" opacity=".4" />
+                    <line x1="0" y1="238" x2="500" y2="238" stroke="#1a2a4a" stroke-width=".5" opacity=".28" />
+                </svg>
+            </div>
+
+            <p class="ch-text">
+                The map spoke of floating islands adrift above the Shattered Abyss —
+                each holding a fragment of a dying sun. With only a lantern and her compass,
+                Seren leapt between worlds, the void yawning wide beneath her boots.
+                Each island whispered the same name: <em>Aethon.</em>
+            </p>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#4dd9f0"></div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║  CHAPTER III — THE DISCOVERY            ║
+       ╚══════════════════════════════════════════╝ -->
+    <section id="ch3">
+        <div class="ch-watermark">III</div>
+        <div class="ch-inner">
+
+            <p class="ch-label">Chapter III &mdash; The Discovery</p>
+            <h2 class="ch-title" style="color:#3dffc0;text-shadow:0 0 38px rgba(61,255,192,.28)">
+                The City at the<br>Edge of Knowing
+            </h2>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#3dffc0"></div>
+            </div>
+
+            <!-- City illustration -->
+            <div class="ch-art" id="art3">
+                <svg viewBox="0 0 500 265" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="sky3" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#050f10" />
+                            <stop offset="70%" stop-color="#071518" />
+                            <stop offset="100%" stop-color="#091f15" />
+                        </linearGradient>
+                        <radialGradient id="lbeam" cx="50%" cy="100%" r="80%">
+                            <stop offset="0%" stop-color="#3dffc0" stop-opacity=".24" />
+                            <stop offset="100%" stop-color="#3dffc0" stop-opacity="0" />
+                        </radialGradient>
+                        <filter id="glow3">
+                            <feGaussianBlur stdDeviation="3.5" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <rect width="500" height="265" fill="url(#sky3)" />
+                    <!-- Light beam from city below -->
+                    <ellipse cx="250" cy="265" rx="220" ry="130" fill="url(#lbeam)" />
+                    <!-- Background city silhouette -->
+                    <rect x="38" y="165" width="20" height="65" fill="#0a1a15" opacity=".7" />
+                    <rect x="68" y="145" width="15" height="85" fill="#0a1a15" opacity=".7" />
+                    <rect x="98" y="155" width="25" height="75" fill="#0a1a15" opacity=".7" />
+                    <rect x="350" y="158" width="20" height="72" fill="#0a1a15" opacity=".7" />
+                    <rect x="378" y="148" width="18" height="82" fill="#0a1a15" opacity=".7" />
+                    <rect x="408" y="162" width="22" height="68" fill="#0a1a15" opacity=".7" />
+                    <rect x="438" y="152" width="15" height="78" fill="#0a1a15" opacity=".7" />
+                    <!-- Stars -->
+                    <circle cx="20" cy="15" r="1" fill="#3dffc0" opacity=".5" />
+                    <circle cx="60" cy="24" r="1.2" fill="#3dffc0" opacity=".4" />
+                    <circle cx="130" cy="10" r="1" fill="#dde4ff" opacity=".6" />
+                    <circle cx="202" cy="20" r="1" fill="#3dffc0" opacity=".5" />
+                    <circle cx="302" cy="12" r="1.5" fill="#dde4ff" opacity=".5" />
+                    <circle cx="382" cy="22" r="1" fill="#3dffc0" opacity=".4" />
+                    <circle cx="452" cy="14" r="1" fill="#dde4ff" opacity=".6" />
+                    <!-- Central tower -->
+                    <g style="animation:cityRise .9s ease .25s both">
+                        <rect x="218" y="82" width="64" height="145" fill="#0d2a1e" />
+                        <rect x="218" y="82" width="64" height="145" fill="none" stroke="#3dffc0" stroke-width=".8"
+                            opacity=".5" />
+                        <rect x="228" y="98" width="8" height="10" fill="#3dffc0" opacity=".6" />
+                        <rect x="243" y="98" width="8" height="10" fill="#3dffc0" opacity=".4" />
+                        <rect x="258" y="98" width="8" height="10" fill="#3dffc0" opacity=".7" />
+                        <rect x="228" y="118" width="8" height="10" fill="#3dffc0" opacity=".5" />
+                        <rect x="258" y="118" width="8" height="10" fill="#3dffc0" opacity=".4" />
+                        <rect x="228" y="138" width="8" height="10" fill="#3dffc0" opacity=".6" />
+                        <rect x="243" y="138" width="8" height="10" fill="#3dffc0" opacity=".3" />
+                        <rect x="258" y="138" width="8" height="10" fill="#3dffc0" opacity=".5" />
+                        <polygon points="250,52 236,82 264,82" fill="#0d2a1e" stroke="#3dffc0" stroke-width=".8"
+                            opacity=".7" />
+                        <circle cx="250" cy="48" r="4" fill="#3dffc0" filter="url(#glow3)" opacity=".9"
+                            style="animation:beaconBlink 1.8s ease-in-out infinite" />
+                    </g>
+                    <!-- Left tower group -->
+                    <g style="animation:cityRise .9s ease .12s both">
+                        <rect x="160" y="112" width="42" height="115" fill="#0b2018" />
+                        <rect x="160" y="112" width="42" height="115" fill="none" stroke="#3dffc0" stroke-width=".5"
+                            opacity=".35" />
+                        <rect x="167" y="128" width="6" height="8" fill="#3dffc0" opacity=".55" />
+                        <rect x="179" y="128" width="6" height="8" fill="#3dffc0" opacity=".4" />
+                        <rect x="167" y="146" width="6" height="8" fill="#3dffc0" opacity=".65" />
+                        <polygon points="181,90 168,112 194,112" fill="#0b2018" stroke="#3dffc0" stroke-width=".5"
+                            opacity=".4" />
+                    </g>
+                    <g style="animation:cityRise .9s ease 0s both">
+                        <rect x="124" y="132" width="30" height="95" fill="#091a14" />
+                        <rect x="124" y="132" width="30" height="95" fill="none" stroke="#3dffc0" stroke-width=".5"
+                            opacity=".2" />
+                        <rect x="130" y="146" width="5" height="7" fill="#3dffc0" opacity=".4" />
+                        <rect x="141" y="146" width="5" height="7" fill="#3dffc0" opacity=".5" />
+                    </g>
+                    <!-- Right tower group -->
+                    <g style="animation:cityRise .9s ease .18s both">
+                        <rect x="295" y="120" width="40" height="107" fill="#0b2018" />
+                        <rect x="295" y="120" width="40" height="107" fill="none" stroke="#3dffc0" stroke-width=".5"
+                            opacity=".35" />
+                        <rect x="302" y="135" width="6" height="8" fill="#3dffc0" opacity=".6" />
+                        <rect x="315" y="135" width="6" height="8" fill="#3dffc0" opacity=".4" />
+                        <rect x="302" y="153" width="6" height="8" fill="#3dffc0" opacity=".5" />
+                        <polygon points="315,100 303,120 327,120" fill="#0b2018" stroke="#3dffc0" stroke-width=".5"
+                            opacity=".4" />
+                        <circle cx="315" cy="96" r="3" fill="#3dffc0" opacity=".7" filter="url(#glow3)" />
+                    </g>
+                    <g style="animation:cityRise .9s ease .06s both">
+                        <rect x="342" y="136" width="28" height="91" fill="#091a14" />
+                        <rect x="342" y="136" width="28" height="91" fill="none" stroke="#3dffc0" stroke-width=".5"
+                            opacity=".2" />
+                        <rect x="348" y="150" width="5" height="7" fill="#3dffc0" opacity=".4" />
+                        <rect x="360" y="150" width="5" height="7" fill="#3dffc0" opacity=".3" />
+                    </g>
+                    <!-- Ground -->
+                    <rect x="0" y="225" width="500" height="40" fill="#060f0a" />
+                    <line x1="0" y1="225" x2="500" y2="225" stroke="#3dffc0" stroke-width=".8" opacity=".3" />
+                    <ellipse cx="250" cy="226" rx="250" ry="18" fill="rgba(61,255,192,.06)" />
+                    <!-- Floating orbs -->
+                    <circle cx="185" cy="96" r="8" fill="#3dffc0" opacity=".1" filter="url(#glow3)" />
+                    <circle cx="185" cy="96" r="3" fill="#3dffc0" opacity=".55" />
+                    <circle cx="315" cy="90" r="6" fill="#3dffc0" opacity=".1" filter="url(#glow3)" />
+                    <circle cx="315" cy="90" r="2.5" fill="#3dffc0" opacity=".5" />
+                    <circle cx="145" cy="155" r="4" fill="#4dd9f0" opacity=".12" filter="url(#glow3)" />
+                    <circle cx="145" cy="155" r="1.8" fill="#4dd9f0" opacity=".6" />
+                </svg>
+            </div>
+
+            <p class="ch-text">
+                Aethon rose from the emerald mist like a cathedral made of starlight —
+                a city that had mapped itself out of existence to survive the end.
+                The inhabitants had become pure light. And at the city's heart,
+                a single, fading flame: the <em>Last Light</em> that kept the world from forgetting itself.
+            </p>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#3dffc0"></div>
+            </div>
+
+            <!-- Interactive choice -->
+            <p
+                style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.22em;color:var(--gold-dim);margin-bottom:1rem;">
+                &mdash; SEREN MUST CHOOSE &mdash;
+            </p>
+            <div class="choice-wrap" id="choices">
+                <button class="choice-btn" onclick="makeChoice('touch')">Touch the flame</button>
+                <button class="choice-btn" onclick="makeChoice('map')">Draw a new map</button>
+                <button class="choice-btn" onclick="makeChoice('call')">Call out to the light</button>
+            </div>
+            <p id="choice-result"></p>
+
+        </div>
+    </section>
+
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║  CHAPTER IV — THE DANGER                ║
+       ╚══════════════════════════════════════════╝ -->
+    <section id="ch4">
+        <div class="ch-watermark">IV</div>
+        <div class="ch-inner">
+
+            <p class="ch-label">Chapter IV &mdash; The Danger</p>
+            <h2 class="ch-title">The World<br>Begins to Burn</h2>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#e0507a"></div>
+            </div>
+
+            <!-- Crumbling world illustration -->
+            <div class="ch-art" id="art4">
+                <svg viewBox="0 0 500 265" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="fireg" cx="50%" cy="80%" r="70%">
+                            <stop offset="0%" stop-color="#ff3020" stop-opacity=".4" />
+                            <stop offset="50%" stop-color="#8a0020" stop-opacity=".25" />
+                            <stop offset="100%" stop-color="#130508" stop-opacity=".9" />
+                        </radialGradient>
+                        <filter id="glow4">
+                            <feGaussianBlur stdDeviation="4" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <filter id="distort4">
+                            <feTurbulence baseFrequency="0.02" numOctaves="2" seed="3">
+                                <animate attributeName="baseFrequency" values="0.02;0.036;0.02" dur="2.8s"
+                                    repeatCount="indefinite" />
+                            </feTurbulence>
+                            <feDisplacementMap in="SourceGraphic" scale="5" />
+                        </filter>
+                    </defs>
+                    <rect width="500" height="265" fill="url(#fireg)" />
+                    <!-- Lava cracks -->
+                    <path d="M250,265 L218,202 L250,182 L228,142 L256,122" fill="none" stroke="#e0507a"
+                        stroke-width="1.5" filter="url(#distort4)" opacity=".7" />
+                    <path d="M250,265 L278,198 L252,177 L272,147 L242,128" fill="none" stroke="#e0507a"
+                        stroke-width="1.2" filter="url(#distort4)" opacity=".55" />
+                    <path d="M0,265 L58,222 L38,192 L78,172 L48,142" fill="none" stroke="#c04030" stroke-width="1"
+                        opacity=".5" />
+                    <path d="M500,265 L422,217 L442,187 L402,167 L432,138" fill="none" stroke="#c04030" stroke-width="1"
+                        opacity=".5" />
+                    <!-- Glow in cracks -->
+                    <path d="M250,265 L218,202 L250,182 L228,142 L256,122" fill="none" stroke="#ff6030"
+                        stroke-width=".6" filter="url(#glow4)" opacity=".85" />
+                    <path d="M250,265 L278,198 L252,177 L272,147 L242,128" fill="none" stroke="#ff6030"
+                        stroke-width=".6" filter="url(#glow4)" opacity=".85" />
+                    <!-- Falling debris -->
+                    <circle cx="100" cy="38" r="6" fill="#8a3020" opacity=".8"
+                        style="animation:crumble 3s ease-in infinite;--tx:-30px;--ty:100px;--tr:45deg" />
+                    <circle cx="388" cy="24" r="4" fill="#6a2015" opacity=".7"
+                        style="animation:crumble 2.5s ease-in infinite 1s;--tx:25px;--ty:90px;--tr:-30deg" />
+                    <rect x="60" y="28" width="10" height="8" rx="2" fill="#702010" opacity=".7"
+                        style="animation:crumble 3.5s ease-in infinite .5s;--tx:-15px;--ty:112px;--tr:62deg" />
+                    <rect x="408" y="48" width="8" height="6" rx="2" fill="#502010" opacity=".6"
+                        style="animation:crumble 2.8s ease-in infinite 1.5s;--tx:20px;--ty:96px;--tr:-52deg" />
+                    <polygon points="202,48 190,70 214,70" fill="#602015" opacity=".7"
+                        style="animation:crumble 4s ease-in infinite .3s;--tx:-40px;--ty:80px;--tr:90deg" />
+                    <polygon points="316,33 304,56 328,56" fill="#702015" opacity=".6"
+                        style="animation:crumble 3.2s ease-in infinite .8s;--tx:35px;--ty:100px;--tr:-70deg" />
+                    <!-- Crumbling columns -->
+                    <g style="animation:crumble 7s ease-in infinite .2s;--tx:-20px;--ty:50px;--tr:15deg">
+                        <rect x="80" y="162" width="18" height="80" fill="#3a1010" />
+                        <rect x="78" y="156" width="22" height="10" fill="#4a1515" />
+                        <rect x="78" y="236" width="22" height="8" fill="#4a1515" />
+                    </g>
+                    <g style="animation:crumble 7s ease-in infinite 1.2s;--tx:25px;--ty:40px;--tr:-12deg">
+                        <rect x="390" y="165" width="16" height="76" fill="#3a1010" />
+                        <rect x="388" y="160" width="20" height="9" fill="#4a1515" />
+                    </g>
+                    <!-- Sky streaks -->
+                    <line x1="100" y1="0" x2="82" y2="120" stroke="#ff3020" stroke-width="1.5" opacity=".18" />
+                    <line x1="252" y1="0" x2="234" y2="80" stroke="#ff4030" stroke-width="1" opacity=".18" />
+                    <line x1="385" y1="0" x2="404" y2="98" stroke="#ff3020" stroke-width="1.5" opacity=".15" />
+                    <!-- Dying flame (Last Light) -->
+                    <g transform="translate(250,120)" filter="url(#glow4)">
+                        <ellipse cx="0" cy="0" rx="26" ry="36" fill="rgba(255,80,40,.18)" />
+                        <ellipse cx="0" cy="0" rx="15" ry="23" fill="rgba(255,130,60,.28)" />
+                        <ellipse cx="0" cy="0" rx="8" ry="14" fill="rgba(255,200,80,.48)" />
+                        <circle cx="0" cy="0" r="4" fill="#fff8c0" opacity=".88" />
+                    </g>
+                    <!-- Bottom ember glow -->
+                    <rect x="0" y="232" width="500" height="33" fill="rgba(200,30,10,.14)" />
+                    <ellipse cx="250" cy="265" rx="250" ry="30" fill="rgba(255,60,20,.1)" />
+                </svg>
+            </div>
+
+            <p class="ch-text">
+                But the flame had enemies — the Unmakers, ancient forces that had fed on the forgetting.
+                They tore at the seams of Aethon, pulling the city back into the void.
+                Columns cracked. Islands fell. The map in Seren's hands began to bleed.
+                She had minutes. <em>Maybe less.</em>
+            </p>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#e0507a"></div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║  CHAPTER V — RESOLUTION                 ║
+       ╚══════════════════════════════════════════╝ -->
+    <section id="ch5">
+        <div class="ch-watermark">V</div>
+        <div class="ch-inner">
+
+            <p class="ch-label">Chapter V &mdash; Resolution</p>
+            <h2 class="ch-title">The Light<br>Remembered</h2>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#3dffc0"></div>
+            </div>
+
+            <!-- Sunrise / constellation illustration -->
+            <div class="ch-art" id="art5">
+                <svg viewBox="0 0 500 265" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="sunriseg" cx="50%" cy="100%" r="80%">
+                            <stop offset="0%" stop-color="#0a2010" />
+                            <stop offset="30%" stop-color="#062018" />
+                            <stop offset="100%" stop-color="#020a08" />
+                        </radialGradient>
+                        <radialGradient id="sunburst" cx="50%" cy="100%" r="70%">
+                            <stop offset="0%" stop-color="#f0d47a" stop-opacity=".62" />
+                            <stop offset="30%" stop-color="#3dffc0" stop-opacity=".3" />
+                            <stop offset="70%" stop-color="#4dd9f0" stop-opacity=".15" />
+                            <stop offset="100%" stop-color="#4dd9f0" stop-opacity="0" />
+                        </radialGradient>
+                        <filter id="glow5">
+                            <feGaussianBlur stdDeviation="5" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <filter id="glowBig">
+                            <feGaussianBlur stdDeviation="10" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <rect width="500" height="265" fill="url(#sunriseg)" />
+                    <!-- Sunrise burst -->
+                    <ellipse cx="250" cy="275" rx="310" ry="188" fill="url(#sunburst)" />
+                    <!-- Sun rays -->
+                    <g opacity=".22" filter="url(#glow5)">
+                        <line x1="250" y1="275" x2="100" y2="60" stroke="#f0d47a" stroke-width="1.5" />
+                        <line x1="250" y1="275" x2="162" y2="18" stroke="#f0d47a" stroke-width="1.5" />
+                        <line x1="250" y1="275" x2="222" y2="0" stroke="#f0d47a" stroke-width="1.5" />
+                        <line x1="250" y1="275" x2="250" y2="0" stroke="#f0d47a" stroke-width="2" />
+                        <line x1="250" y1="275" x2="278" y2="0" stroke="#f0d47a" stroke-width="1.5" />
+                        <line x1="250" y1="275" x2="320" y2="14" stroke="#f0d47a" stroke-width="1.5" />
+                        <line x1="250" y1="275" x2="392" y2="54" stroke="#f0d47a" stroke-width="1.5" />
+                        <line x1="250" y1="275" x2="462" y2="118" stroke="#f0d47a" stroke-width="1.2" />
+                        <line x1="250" y1="275" x2="48" y2="130" stroke="#f0d47a" stroke-width="1.2" />
+                    </g>
+                    <!-- Central glow -->
+                    <circle cx="250" cy="250" r="42" fill="#f0d47a" opacity=".08" filter="url(#glowBig)" />
+                    <circle cx="250" cy="250" r="20" fill="#f0d47a" opacity=".15" filter="url(#glow5)" />
+                    <circle cx="250" cy="250" r="8" fill="#f0e090" opacity=".62" />
+                    <circle cx="250" cy="250" r="4" fill="#fff8d0" opacity=".9" />
+                    <!-- Constellation lines (animated draw) -->
+                    <g stroke="#4dd9f0" stroke-width=".85" fill="none" opacity=".75">
+                        <polyline points="118,80 158,50 200,70 180,112 148,90 118,80" stroke-dasharray="1000"
+                            style="animation:constellationDraw 3s ease 1s forwards" />
+                        <polyline points="282,60 322,40 362,66 340,102 300,86 282,60" stroke-dasharray="1000"
+                            style="animation:constellationDraw 3s ease 1.6s forwards" />
+                        <polyline points="382,128 422,114 442,152 410,166 386,150 382,128" stroke-dasharray="1000"
+                            style="animation:constellationDraw 3s ease 2.2s forwards" />
+                        <polyline points="58,142 90,120 112,152 80,170 58,142" stroke-dasharray="1000"
+                            style="animation:constellationDraw 3s ease 2.8s forwards" />
+                        <line x1="200" y1="70" x2="282" y2="60" stroke-dasharray="1000"
+                            style="animation:constellationDraw 2s ease 3.2s forwards" />
+                        <line x1="362" y1="66" x2="382" y2="128" stroke-dasharray="1000"
+                            style="animation:constellationDraw 2s ease 3.4s forwards" />
+                        <line x1="112" y1="152" x2="180" y2="112" stroke-dasharray="1000"
+                            style="animation:constellationDraw 2s ease 3.6s forwards" />
+                    </g>
+                    <!-- Constellation stars -->
+                    <g fill="#4dd9f0" filter="url(#glow5)">
+                        <circle cx="118" cy="80" r="2.5" />
+                        <circle cx="158" cy="50" r="3" />
+                        <circle cx="200" cy="70" r="2.5" />
+                        <circle cx="180" cy="112" r="2" />
+                        <circle cx="148" cy="90" r="2" />
+                        <circle cx="282" cy="60" r="2.5" />
+                        <circle cx="322" cy="40" r="3" />
+                        <circle cx="362" cy="66" r="2.5" />
+                        <circle cx="340" cy="102" r="2" />
+                        <circle cx="300" cy="86" r="2" />
+                        <circle cx="382" cy="128" r="2.5" />
+                        <circle cx="422" cy="114" r="2" />
+                        <circle cx="442" cy="152" r="2.5" />
+                        <circle cx="410" cy="166" r="2" />
+                        <circle cx="58" cy="142" r="2" />
+                        <circle cx="90" cy="120" r="2.5" />
+                        <circle cx="112" cy="152" r="2" />
+                    </g>
+                    <!-- Golden stars -->
+                    <circle cx="250" cy="28" r="2.5" fill="#f0d47a" opacity=".9" filter="url(#glow5)" />
+                    <circle cx="58" cy="44" r="1.5" fill="#f0d47a" opacity=".7" />
+                    <circle cx="422" cy="36" r="1.5" fill="#f0d47a" opacity=".7" />
+                    <circle cx="140" cy="20" r="1" fill="#f0d47a" opacity=".6" />
+                    <circle cx="342" cy="22" r="1.2" fill="#f0d47a" opacity=".6" />
+                    <!-- Horizon -->
+                    <line x1="0" y1="235" x2="500" y2="235" stroke="#3dffc0" stroke-width=".5" opacity=".28" />
+                    <!-- Cartographer signature -->
+                    <text x="250" y="224" text-anchor="middle" fill="#c9a84c" font-family="Cormorant Garamond"
+                        font-size="9" font-style="italic" opacity=".55">
+                        — drawn by S. Vael, last of the cartographers —
+                    </text>
+                </svg>
+            </div>
+
+            <p class="ch-text">
+                Seren pressed her palms to the dying flame and spoke every name she had ever mapped —
+                every river, every ruin, every road not yet travelled.
+                The light surged. The constellations rewrote themselves. Aethon exhaled.
+                The world remembered it existed, and that was enough to <em>let it live.</em>
+            </p>
+            <div class="deco-line">
+                <div class="deco-diamond" style="background:#f0d47a"></div>
+            </div>
+
+            <!-- End card -->
+            <p class="story-end-label">
+                &mdash; F I N &mdash;<br>
+                <span style="opacity:.45">The Last Cartographer &middot; An Interactive Story</span>
+            </p>
+            <button class="restart-btn" onclick="restartStory()">&#x21BA; Begin Again</button>
+
+        </div>
+    </section>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+
+</html>
