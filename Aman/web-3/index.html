@@ -841,6 +841,11 @@
             🛒 Cart
           </a>
           <span class="cart-count" id="cartCount">0</span>
+          <li>
+  <button class="btn btn-ghost" onclick="toggleMusic()" style="padding:8px 14px;">
+    🎵 Music
+  </button>
+</li>
         </div>
       </li>
     </ul>
@@ -1128,70 +1133,93 @@
 
 <!-- ══ TOAST ══ -->
 <div id="toast">✅ Added to cart!</div>
+<li>
+  <button class="btn btn-ghost" onclick="toggleMusic()" style="padding:8px 14px;">
+    🎵 Music
+  </button>
+</li>
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
+<audio id="clickSound">
+  <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mpeg">
+</audio>
 <script>
   // ─── PRODUCT DATA ───────────────────────────────────────────────────────────
-  const products = [
-    { id:1, name:'iPhone 16 Pro', cat:'smartphone', price:1199, old:1299, badge:'New', img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&q=80', desc:'6.3" ProMotion OLED, A18 chip, titanium build.', stars:5 },
-    { id:2, name:'MacBook Pro 16"', cat:'laptop', price:2499, old:2699, badge:'Hot', img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=80', desc:'M4 Pro chip, 24GB RAM, Liquid Retina XDR.', stars:5 },
-    { id:3, name:'Sony WH-1000XM6', cat:'headphones', price:349, old:399, badge:'Sale', img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80', desc:'Industry-leading ANC, 40h battery, LDAC.', stars:5 },
-    { id:4, name:'Samsung Galaxy S25', cat:'smartphone', price:999, old:1099, badge:'New', img:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&q=80', desc:'Dynamic AMOLED 2X, 200MP camera, 45W fast charge.', stars:4 },
-    { id:5, name:'Dell XPS 15', cat:'laptop', price:1799, old:1999, badge:'', img:'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&q=80', desc:'OLED display, Intel Core i9, NVIDIA RTX 4070.', stars:4 },
-    { id:6, name:'Mechanical Keyboard', cat:'keyboard', price:159, old:199, badge:'Sale', img:'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80', desc:'Cherry MX switches, RGB backlit, TKL layout.', stars:4 },
-    { id:7, name:'Sony A7 V Camera', cat:'camera', price:3299, old:3499, badge:'', img:'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&q=80', desc:'61MP full-frame, 4K120p video, real-time AF.', stars:5 },
-    { id:8, name:'iPad Pro 13"', cat:'tablet', price:1299, old:1399, badge:'New', img:'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&q=80', desc:'Ultra Retina XDR OLED, M4 chip, Apple Pencil Pro.', stars:5 },
-    { id:9, name:'Sonos Era 300', cat:'speaker', price:449, old:499, badge:'', img:'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80', desc:'Spatial audio, Dolby Atmos, 360° sound.', stars:4 },
-    { id:10, name:'LG UltraGear 27"', cat:'monitor', price:699, old:799, badge:'Sale', img:'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80', desc:'4K OLED, 240Hz, 0.03ms, G-Sync & FreeSync.', stars:5 },
-    { id:11, name:'PS5 Pro', cat:'gaming', price:699, old:799, badge:'Hot', img:'https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=400&q=80', desc:'8K gaming ready, 2TB SSD, DualSense Edge.', stars:5 },
-    { id:12, name:'Google Pixel 9 Pro', cat:'smartphone', price:1099, old:1199, badge:'', img:'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=400&q=80', desc:'Tensor G4, 50MP triple camera, 7 years updates.', stars:4 },
-    { id:13, name:'Razer Blade 16', cat:'laptop', price:3299, old:3599, badge:'', img:'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&q=80', desc:'RTX 4090, 240Hz Mini-LED, per-key RGB.', stars:5 },
-    { id:14, name:'AirPods Max 2', cat:'headphones', price:549, old:599, badge:'New', img:'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=400&q=80', desc:'H2 chip, Adaptive ANC, USB-C, 40h battery.', stars:4 },
-    { id:15, name:'ASUS ROG Keyboard', cat:'keyboard', price:219, old:249, badge:'', img:'https://images.unsplash.com/photo-1672289949682-e47a1e1cdbc2?w=400&q=80', desc:'Optical switches, hot-swap, per-key ARGB.', stars:4 },
-    { id:16, name:'DJI Osmo Pocket 3', cat:'camera', price:519, old:569, badge:'', img:'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=80', desc:'4K/120fps, 1" CMOS sensor, gimbal stabilized.', stars:5 },
-    { id:17, name:'Amazon Echo Hub', cat:'speaker', price:179, old:199, badge:'Sale', img:'https://images.unsplash.com/photo-1512446733611-9099a758e3f2?w=400&q=80', desc:'Smart home control panel, 8" display, Alexa.', stars:4 },
-    { id:18, name:'Samsung Odyssey G9', cat:'monitor', price:1299, old:1499, badge:'Hot', img:'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400&q=80', desc:'49" DQHD curved OLED, 240Hz, 1ms, HDMI 2.1.', stars:5 },
-    { id:19, name:'Xbox Series X', cat:'gaming', price:499, old:599, badge:'Sale', img:'https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=400&q=80', desc:'12 TFLOPS, 4K@120fps, 1TB NVMe, Quick Resume.', stars:4 },
-    { id:20, name:'OnePlus 13', cat:'smartphone', price:899, old:999, badge:'', img:'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&q=80', desc:'Snapdragon 8 Elite, 100W fast charge, Hasselblad camera.', stars:4 },
-  ];
+  const products = [/* KEEP YOUR SAME PRODUCT ARRAY HERE (unchanged) */];
 
   let cartCount = 0;
   let displayCount = 8;
   let activeCategory = 'all';
 
+  // ─── MUSIC SYSTEM ───────────────────────────────────────────────────────────
+  const music = document.getElementById("bgMusic");
+  const clickSound = document.getElementById("clickSound");
+  let isPlaying = false;
+
+  music.volume = 0.3;
+
+  function toggleMusic() {
+    if (isPlaying) {
+      music.pause();
+      showToast("🔇 Music paused");
+    } else {
+      music.play();
+      showToast("🎶 Music playing");
+    }
+    isPlaying = !isPlaying;
+  }
+
+  function playClick() {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
+
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', playClick);
+  });
+
+  // ─── PRODUCTS ───────────────────────────────────────────────────────────────
   function getFiltered() {
-    return activeCategory === 'all' ? products : products.filter(p => p.cat === activeCategory);
+    return activeCategory === 'all'
+      ? products
+      : products.filter(p => p.cat === activeCategory);
   }
 
   function renderProducts() {
     const container = document.getElementById('productContainer');
     const filtered = getFiltered().slice(0, displayCount);
     container.innerHTML = '';
+
     filtered.forEach((p, i) => {
       const stars = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
       const badgeHtml = p.badge ? `<div class="card-badge ${p.badge === 'Sale' ? 'sale' : ''}">${p.badge}</div>` : '';
       const oldHtml = p.old ? `<span class="old">$${p.old}</span>` : '';
+
       const card = document.createElement('div');
       card.className = 'card';
       card.style.animationDelay = (i * 0.05) + 's';
+
       card.innerHTML = `
         <div class="card-img-wrap">
-          <img src="${p.img}" alt="${p.name}" loading="lazy"
-            onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80'" />
+          <img src="${p.img}" alt="${p.name}" />
           ${badgeHtml}
-          <button class="card-wishlist" onclick="toggleWish(this)" title="Wishlist">♡</button>
+          <button class="card-wishlist" onclick="toggleWish(this)">♡</button>
         </div>
         <div class="card-body">
           <div class="card-cat">${p.cat}</div>
-          <div class="card-stars">${stars} <span style="color:var(--muted);font-size:11px;">(${Math.floor(Math.random()*200+50)})</span></div>
+          <div class="card-stars">${stars}</div>
           <div class="card-name">${p.name}</div>
           <div class="card-desc">${p.desc}</div>
           <div class="card-footer">
             <div class="card-price">$${p.price} ${oldHtml}</div>
-            <button class="card-btn" onclick="addToCart('${p.name}')" title="Add to cart">+</button>
+            <button class="card-btn" onclick="addToCart('${p.name}')">+</button>
           </div>
         </div>`;
       container.appendChild(card);
     });
+
     document.getElementById('loadMoreBtn').style.display =
       getFiltered().length > displayCount ? 'inline-flex' : 'none';
   }
@@ -1224,37 +1252,13 @@
   document.getElementById('catScroll').addEventListener('click', e => {
     const chip = e.target.closest('.cat-chip');
     if (!chip) return;
+
     document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
+
     activeCategory = chip.dataset.cat;
     displayCount = 8;
     renderProducts();
-  });
-
-  // ─── TESTIMONIALS ───────────────────────────────────────────────────────────
-  const testimonials = [
-    { name:'Arjun Patel', loc:'Mumbai, India', text:'Ordered a laptop and it arrived the next day. Packaging was perfect and the product is exactly as described. Will definitely be a repeat customer!', stars:5, initials:'AP' },
-    { name:'Sarah Chen', loc:'San Francisco, USA', text:'Best electronics store online. Their price match guarantee saved me $150 on my new monitor. Customer service was super helpful too.', stars:5, initials:'SC' },
-    { name:'Marcus Webb', loc:'London, UK', text:'The Sony headphones I bought are absolutely incredible. ElectroHub had the best price I could find anywhere and delivery was lightning fast.', stars:5, initials:'MW' },
-    { name:'Priya Singh', loc:'Delhi, India', text:'Returned a faulty item without any hassle. Got a full refund in 48 hours. Their support team really cares about customers.', stars:4, initials:'PS' },
-    { name:'Luca Ferrari', loc:'Milan, Italy', text:'Amazing selection of gaming peripherals. Got my setup complete in one order. Quality is top notch, exactly what I was looking for.', stars:5, initials:'LF' },
-    { name:'Yuki Tanaka', loc:'Tokyo, Japan', text:'Shopping here is seamless. The website is fast, checkout is simple, and my order arrived ahead of schedule. Highly recommend!', stars:5, initials:'YT' },
-  ];
-  const track = document.getElementById('testiTrack');
-  [...testimonials, ...testimonials].forEach(t => {
-    const el = document.createElement('div');
-    el.className = 'testi-card';
-    el.innerHTML = `
-      <div class="testi-stars">${'★'.repeat(t.stars)}</div>
-      <div class="testi-text">"${t.text}"</div>
-      <div class="testi-author">
-        <div class="testi-avatar">${t.initials}</div>
-        <div>
-          <div class="testi-name">${t.name}</div>
-          <div class="testi-loc">${t.loc}</div>
-        </div>
-      </div>`;
-    track.appendChild(el);
   });
 
   // ─── NAV ────────────────────────────────────────────────────────────────────
@@ -1262,17 +1266,21 @@
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Active nav on scroll
   const sections = ['home','products','features','about','testimonials','contact'];
+
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const header = document.getElementById('mainHeader');
+
     header.classList.toggle('scrolled', scrollY > 50);
+
     sections.forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
+
       const top = el.offsetTop - 100;
       const bottom = top + el.offsetHeight;
+
       if (scrollY >= top && scrollY < bottom) {
         document.querySelectorAll('.nav-link').forEach(a => {
           a.classList.toggle('active', a.getAttribute('href') === '#' + id);
@@ -1281,27 +1289,67 @@
     });
   });
 
-  // Hamburger
+  // ─── HAMBURGER ──────────────────────────────────────────────────────────────
   const ham = document.getElementById('hamburger');
   const nav = document.getElementById('mainNav');
+
   ham.addEventListener('click', () => {
     ham.classList.toggle('open');
     nav.classList.toggle('open');
   });
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    ham.classList.remove('open');
-    nav.classList.remove('open');
-  }));
+
+  nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      ham.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
 
   // ─── CONTACT FORM ───────────────────────────────────────────────────────────
   function submitForm(e) {
     e.preventDefault();
-    showToast('✉️ Message sent! We\'ll reply soon.');
+    showToast('✉️ Message sent!');
     e.target.reset();
   }
 
-  // ─── INIT ───────────────────────────────────────────────────────────────────
+  // ─── INIT ────────────
+  // ───────────────────────────────────────────────────────
   renderProducts();
+
+
+  // ─── MUSIC SYSTEM ─────────────────────────
+const music = document.getElementById("bgMusic");
+const clickSound = document.getElementById("clickSound");
+let isPlaying = false;
+
+// set volume
+music.volume = 0.3;
+
+// toggle music
+function toggleMusic() {
+  if (isPlaying) {
+    music.pause();
+    showToast("🔇 Music paused");
+  } else {
+    music.play();
+    showToast("🎶 Music playing");
+  }
+  isPlaying = !isPlaying;
+}
+
+// click sound
+function playClick() {
+  clickSound.currentTime = 0;
+  clickSound.play();
+}
+
+// apply click sound to buttons
+document.addEventListener("click", function(e){
+  if(e.target.closest("button")){
+    playClick();
+  }
+});
 </script>
+
 </body>
 </html>

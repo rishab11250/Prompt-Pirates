@@ -7,52 +7,56 @@ body {
     overflow-x: hidden;
 }
 
-/* Background & Orbit Line */
+/* Star Background */
 .stars {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: radial-gradient(1px 1px at 10% 10%, #fff, transparent),
                 radial-gradient(2px 2px at 50% 50%, #fff, transparent);
-    background-size: 200px 200px;
-    opacity: 0.2;
+    background-size: 250px 250px;
+    opacity: 0.25;
     z-index: -1;
 }
 
+/* Center Orbit Line */
 .orbit-path {
     position: fixed;
     top: 0; left: 50%;
-    width: 2px; height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(97, 218, 251, 0.3), transparent);
+    width: 1px; height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(97, 218, 251, 0.4), transparent);
     transform: translateX(-50%);
     z-index: 0;
 }
 
-/* Navigation */
+/* Navbar */
 .navbar {
     position: fixed;
     top: 0; width: 100%;
     text-align: center;
     padding: 1.5rem;
     z-index: 100;
+    background: rgba(2, 6, 23, 0.7);
+    backdrop-filter: blur(10px);
 }
-.logo { font-size: 2.5rem; font-weight: 800; color: #61dafb; letter-spacing: 8px; }
-.tagline { font-size: 0.8rem; letter-spacing: 4px; opacity: 0.7; }
+.logo { font-size: 2rem; font-weight: 800; color: #61dafb; letter-spacing: 10px; }
+.tagline { font-size: 0.7rem; letter-spacing: 4px; opacity: 0.6; margin-top: 5px; }
 
-/* Layout Grid */
+/* Content Container */
 .container { padding-top: 150px; }
 
 .planet-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
-    padding: 0 5%;
-    gap: 4rem;
+    min-height: 90vh;
+    padding: 0 10%;
+    gap: 5rem;
     opacity: 0;
-    transition: all 1.2s ease-out;
+    transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.planet-row.left { transform: translateX(-100px); flex-direction: row; }
+/* Entrance Animations */
+.planet-row.left { transform: translateX(-100px); }
 .planet-row.right { transform: translateX(100px); flex-direction: row-reverse; }
 
 .planet-row.visible {
@@ -60,17 +64,15 @@ body {
     transform: translateX(0);
 }
 
-/* The Sphere (Shape Correction) */
+/* Planet Sphere */
 .sphere {
     width: 350px;
     height: 350px;
-    border-radius: 50%; /* Makes it perfectly round */
+    border-radius: 50%;
     background-size: cover;
     background-position: center;
-    box-shadow: 
-        inset -30px -30px 60px rgba(0,0,0,0.8),
-        0 0 40px rgba(97, 218, 251, 0.2);
-    animation: rotate 30s linear infinite;
+    box-shadow: inset -40px -40px 80px rgba(0,0,0,0.9), 0 0 50px rgba(97, 218, 251, 0.1);
+    animation: rotate 60s linear infinite;
 }
 
 @keyframes rotate {
@@ -78,24 +80,34 @@ body {
     to { filter: hue-rotate(360deg); }
 }
 
-/* Images */
+/* Textures */
 .p1 { background-image: url('https://images.pexels.com/photos/36008923/pexels-photo-36008923.jpeg?auto=compress&cs=tinysrgb&w=500'); }
 .p2 { background-image: url('https://media.gettyimages.com/id/1359393157/vector/venus-illustration.jpg?s=612x612&w=0&k=20&c=MvuXLwruRQCF78vDUGTwtvbF-FW0WMn4hbJscvTQIHc='); }
 .p3 { background-image: url('https://media.gettyimages.com/id/460713161/vector/venus-artwork.jpg?s=612x612&w=0&k=20&c=neRu2nnTEdyMYyLjXNSoknzw_9-ZKMAY2qw9OBiAywE='); }
-.p4 { background-image: url('https://esahubble.org/media/archives/images/medium/jupiter-auroras1.jpg'); }
 .p5 { background-image: url('https://cdn.mos.cms.futurecdn.net/uVwrSjfVvkGwk9y6zNJMob.jpg'); }
 .p6 { background-image: url('https://plus.unsplash.com/premium_photo-1678820783285-192e0355183c?fm=jpg&q=60&w=3000'); }
 
 /* Glass Cards */
 .glass {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2.5rem;
-    border-radius: 20px;
-    max-width: 400px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 3rem;
+    border-radius: 30px;
+    max-width: 450px;
 }
 
-.glass h1 { color: #61dafb; margin-bottom: 1rem; }
-.glass p { line-height: 1.6; opacity: 0.8; }
+.glass h1 { color: #61dafb; margin-bottom: 1rem; font-size: 2rem; }
+.glass p { line-height: 1.7; opacity: 0.7; font-size: 1rem; }
 
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .planet-row, .planet-row.right {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+        padding-bottom: 100px;
+    }
+    .sphere { width: 280px; height: 280px; }
+    .orbit-path { left: 20px; transform: none; }
+}
