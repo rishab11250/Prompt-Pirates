@@ -6,8 +6,17 @@ body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow
 .navbar {
     position: fixed; top: 0; width: 100%; padding: 40px 60px;
     display: flex; justify-content: space-between; z-index: 1000;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
 }
+
+.navbar.scrolled {
+    padding: 20px 60px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .logo { font-weight: 900; letter-spacing: 3px; font-size: 1.2rem; }
 .accent { color: var(--accent); }
 
@@ -25,7 +34,7 @@ body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow
 .caption {
     width: 100%; padding: 120px 60px;
     background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-    overflow: hidden; /* For the text mask */
+    overflow: hidden;
 }
 
 h1 {
@@ -41,44 +50,30 @@ h1 {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     border-top: 1px solid rgba(255,255,255,0.1);
 }
+
 .socials { margin-top: 20px; font-size: 0.7rem; letter-spacing: 4px; opacity: 0.4; }
 
-/* Custom Cursor Styling */
 .cursor {
     width: 8px; height: 8px; background: var(--accent);
     border-radius: 50%; position: fixed; pointer-events: none;
     z-index: 9999; transition: transform 0.1s ease;
 }
+
 .cursor-follower {
     width: 40px; height: 40px; border: 1px solid var(--accent);
     border-radius: 50%; position: fixed; pointer-events: none;
     z-index: 9998; transition: transform 0.2s ease, background 0.3s ease;
 }
 
-/* Hover effect for cursor */
 .cursor-active .cursor-follower {
     transform: scale(2);
     background: rgba(99, 102, 241, 0.1);
     border: none;
 }
 
-/* Upgraded Navbar */
-.navbar {
-    position: fixed; top: 0; width: 100%; padding: 40px 60px;
-    z-index: 2000; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Scrolled State (Triggered by JS) */
-.navbar.scrolled {
-    padding: 20px 60px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
 .nav-container {
     display: flex; justify-content: space-between; align-items: center;
-    max-width: 1800px; margin: 0 auto;
+    width: 100%; max-width: 1800px; margin: 0 auto;
 }
 
 .nav-right { display: flex; align-items: center; gap: 40px; }
@@ -88,11 +83,11 @@ h1 {
     display: flex; align-items: center; gap: 15px;
 }
 
-/* Pulsing Status Dot */
 .pulse {
     width: 6px; height: 6px; background: var(--accent);
     border-radius: 50%; position: relative;
 }
+
 .pulse::after {
     content: ''; position: absolute; inset: -4px;
     border-radius: 50%; border: 1px solid var(--accent);
@@ -104,13 +99,18 @@ h1 {
     100% { transform: scale(2.5); opacity: 0; }
 }
 
-/* Minimalist Menu Burger */
 .menu-btn {
     background: none; border: none; cursor: pointer;
     display: flex; flex-direction: column; gap: 6px;
 }
-.menu-btn span {
-    width: 30px; height: 2px; background: white;
-    transition: 0.3s;
-}
+
+.menu-btn span { width: 30px; height: 2px; background: white; transition: 0.3s; }
 .menu-btn:hover span:last-child { width: 15px; background: var(--accent); }
+
+.music-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.2);
+    color: white; padding: 8px 12px; cursor: pointer;
+    font-size: 0.8rem; border-radius: 20px; transition: 0.3s;
+}
+
+.music-btn:hover { border-color: var(--accent); color: var(--accent); }
